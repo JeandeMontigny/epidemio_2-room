@@ -92,8 +92,8 @@ namespace bdm {
       return geom;
 
   } // end BuildTwoRoom
-// -----------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
   // return wall distance from A, in direction A->B
   // return infinity if no wall is between A and B
   inline double DistToWall(Double3 positionA, Double3 positionB) {
@@ -119,43 +119,43 @@ namespace bdm {
     return step;
   } // end DistToWall
 
+// ---------------------------------------------------------------------------
     inline bool IsInsideStructure(Double3 position) {
       TGeoNode* node = gGeoManager->FindNode(position[0], position[1], position[2]);
       std::string medium_name = node->GetMedium()->GetName();
-      // std::cout << "Point "
-      //           << position[0] << " " << position[1] << " " << position[2]
-      //           << " is inside " << node->GetName()
-      //           << " (" << node->GetMedium()->GetName() << ")" << std::endl;
+      std::cout << "Point "
+                << position[0] << " " << position[1] << " " << position[2]
+                << " is inside " << node->GetName()
+                << " (" << node->GetMedium()->GetName() << ")" << std::endl;
       if (medium_name != "Air") {
         return true;
       }
       return false;
     } // end IsInsideStruct
-// -----------------------------------------------------------------------------
 
-  // inline bool IsObjInbetween(double positionA[3], double positionB[3]) {
-  //   double dAB[3];
-  //   for (int i=0; i<3; ++i) {
-  //     dAB[i] = positionB[i] - positionA[i];
-  //   }
-  //   double distAB = std::sqrt(dAB[0]*dAB[0] + dAB[1]*dAB[1] + dAB[2]*dAB[2]);
-  //   // normalize the direction
-  //   for (int i=0; i<3; ++i) {
-  //     dAB[i] /= distAB;
-  //   }
-  //
-  //   // initialize starting point in the position of A and starting direction shooting towards B
-  //   gGeoManager->InitTrack(positionA, dAB);
-  //   // geo->InitTrack(positionA, dAB);
-  //   // Shoot the ray towards B and check if it hits something in between
-  //   auto node = gGeoManager->FindNextBoundary();
-  //   double step = gGeoManager->GetStep();
-  //   if (step < distAB) {
-  //     return true;
-  //   }
-  //   return false;
-  // } // end IsObjInbetween
-// -----------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+  inline bool ObjectInbetween(Double3 positionA, Double3 positionB) {
+    double dAB[3];
+    for (int i=0; i<3; ++i) {
+      dAB[i] = positionB[i] - positionA[i];
+    }
+    double distAB = std::sqrt(dAB[0]*dAB[0] + dAB[1]*dAB[1] + dAB[2]*dAB[2]);
+    // normalize the direction
+    for (int i=0; i<3; ++i) {
+      dAB[i] /= distAB;
+    }
+
+    // initialize starting point in the position of A and starting direction shooting towards B
+    double A[3];
+    for (int i=0; i<3; ++i) A[i] = positionA[i];
+    gGeoManager->InitTrack(A, dAB);
+    // Shoot the ray towards B and check if it hits something in between
+    double step = gGeoManager->GetStep();
+    if (step < distAB) {
+      return true;
+    }
+    return false;
+  } // end IsObjInbetween
 
 }  // namespace bdm
 

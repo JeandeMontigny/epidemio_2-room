@@ -13,10 +13,11 @@
 #include "sim-param.h"
 
 namespace bdm {
-  using namespace std;
 
   // define human creator
-  static void HumanCreator(double min, double max, int num_human, State state) {
+  static void HumanCreator(double min, double max,
+                           int num_human, State state) {
+
     auto* sim = Simulation::GetActive();
     auto* rm = sim->GetResourceManager();
     auto* param = sim->GetParam();
@@ -41,7 +42,6 @@ namespace bdm {
       rm->push_back(human);
     }
   }  // end CellCreator
-// -----------------------------------------------------------------------------
 
 }
 

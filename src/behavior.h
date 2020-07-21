@@ -26,14 +26,19 @@ namespace bdm {
     // `infection_radius`
     void operator()(const SimObject* neighbor, double squared_distance) override {
       auto* other = bdm_static_cast<const Human*>(neighbor);
+      // if a ROOT geometry structure is between humans
+      if (ObjectInbetween(self_->GetPosition(), other->GetPosition())) {
+        return;
+      }
+      // otherwise, infection
       if (other->state_ == State::kInfected) {
         self_->state_ = State::kInfected;
         self_->recovery_counter_ = recovery_duration_;
       }
     }
   }; // end CheckSurrounding
-// -----------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
   struct InfectiousBehaviour : public BaseBiologyModule {
     BDM_STATELESS_BM_HEADER(InfectiousBehaviour, BaseBiologyModule, 1);
 
@@ -58,13 +63,14 @@ namespace bdm {
       // infection
       if (human->state_ == kHealthy) {
         CheckSurrounding check(human, sparam->recovery_duration);
-        ctxt->ForEachNeighborWithinRadius(check, *human, sparam->infection_radius);
+        ctxt->ForEachNeighborWithinRadius(check, *human,
+           sparam->infection_radius);
       } // end infection
 
     } // end Run
   }; // end InfectiousBehaviour
-// -----------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
 struct MoveRandomly : public BaseBiologyModule {
   BDM_STATELESS_BM_HEADER(MoveRandomly, BaseBiologyModule, 1);
 
@@ -80,13 +86,13 @@ struct MoveRandomly : public BaseBiologyModule {
 
     const auto& position = human->GetPosition();
     auto rand_movement = random->UniformArray<3>(-1, 1).Normalize();
+    rand_movement[2] = 0;
 
-    // if (DistToWall(position, position + rand_movement * sparam->human_speed) > human->GetDiameter()/2) {
+    if (DistToWall(position, position + rand_movement * sparam->human_speed) > human->GetDiameter()/2) {
       human->SetPosition(position + rand_movement * sparam->human_speed);
-    // }
+    }
   } // end Run
 }; // end MoveRandomly
-// -----------------------------------------------------------------------------
 
 }  // namespace bdm
 

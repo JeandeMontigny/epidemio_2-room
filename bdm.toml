@@ -1,0 +1,28 @@
+number_of_steps = 3000
+
+initial_population_healthy = 5
+initial_population_infected = 1
+infection_radius = 200
+human_diameter = 70
+human_speed = 10
+recovery_duration = 300
+infection_probablity = 0.4
+
+# ----------------------------------------------------------------------------
+[simulation]
+time_step = 1
+bound_space = true
+min_bound = -1000
+max_bound = 1000
+run_mechanical_interactions = true
+show_simulation_step = false
+
+# ----------------------------------------------------------------------------
+[visualization]
+export = false
+live = false
+export_interval = 1
+
+    [[visualize_sim_object]]
+    name = "Human"
+    additional_data_members = [ "state_" ]
