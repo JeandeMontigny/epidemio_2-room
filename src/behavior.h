@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------------
 //
-// Copyright (C) Lukas Breitwieser.
+// Copyright (C) Jean de Montigny and Lukas Breitwieser.
 // All Rights Reserved.
 //
 // -----------------------------------------------------------------------------
@@ -81,11 +81,12 @@ struct MoveRandomly : public BaseBiologyModule {
     const auto& position = human->GetPosition();
     auto rand_movement = random->UniformArray<3>(-1, 1).Normalize();
 
-    if (DistToWall(position, position + rand_movement * sparam->human_speed) > human->GetDiameter()/2) {
+    // if (DistToWall(position, position + rand_movement * sparam->human_speed) > human->GetDiameter()/2) {
       human->SetPosition(position + rand_movement * sparam->human_speed);
-    }
+    // }
   } // end Run
 }; // end MoveRandomly
+// -----------------------------------------------------------------------------
 
 }  // namespace bdm
 

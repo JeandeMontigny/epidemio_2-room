@@ -24,31 +24,37 @@
 namespace bdm {
 
 inline int Simulate(int argc, const char** argv) {
-  Simulation simulation(argc, argv);
+  auto set_param = [&](Param* param) {
+    // Create an artificial bounds for the simulation space
+    param->bound_space_ = true;
+    param->min_bound_ = -1000;
+    param->max_bound_ = 1000;
+    // param->run_mechanical_interactions_ = true;
+  };
+
+  Simulation simulation(argc, argv, set_param);
 
   auto* param = simulation.GetParam();
   auto* sparam = param->GetModuleParam<SimParam>();
-  // initialize random number generators
-  for (int i = 1; i < ThreadInfo::GetInstance()->GetMaxThreads(); i++) {
-    simulation.GetAllRandom()[i]->SetSeed(4357 * i);
-  }
 
-  // create human population
-  HumanCreator(param->min_bound_, param->max_bound_,
-    sparam->initial_population_healthy, State::kHealthy);
-  HumanCreator(param->min_bound_, param->max_bound_,
-    sparam->initial_population_infected, State::kInfected);
+  simulation.GetRandom()->SetSeed(5649);
 
   // create ROOT geometry
   BuildTwoRoom();
   // auto geom = BuildTwoRoom();
+
+  // create human population
+  HumanCreator(param->min_bound_, param->max_bound_,
+    sparam->initial_population_healthy, State::kHealthy);
+    HumanCreator(param->min_bound_, param->max_bound_,
+      sparam->initial_population_infected, State::kInfected);
 
   // Run simulation for number_of_steps timestep
   for (uint64_t i = 0; i < sparam->number_of_steps; ++i) {
     simulation.GetScheduler()->Simulate(1);
   }
 
-  std::cout << "Simulation completed successfully!" << std::endl;
+  std::cout << "done" << std::endl;
   return 0;
 }
 

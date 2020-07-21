@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------------
 //
-// Copyright (C) Lukas Breitwieser.
+// Copyright (C) Jean de Montigny and Lukas Breitwieser.
 // All Rights Reserved.
 //
 // -----------------------------------------------------------------------------
@@ -21,7 +21,7 @@ ModuleParamUid SimParam::GetUid() const { return kUid; }
 
 void SimParam::AssignFromConfig(const std::shared_ptr<cpptoml::table>& config) {
   BDM_ASSIGN_PARAM_VALUE(number_of_steps);
-  BDM_ASSIGN_PARAM_VALUE(initial_population);
+  BDM_ASSIGN_PARAM_VALUE(initial_population_healthy);
   BDM_ASSIGN_PARAM_VALUE(initial_population_infected);
   BDM_ASSIGN_PARAM_VALUE(infection_radius);
   BDM_ASSIGN_PARAM_VALUE(recovery_duration);

@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------------
 //
-// Copyright (C) Lukas Breitwieser.
+// Copyright (C) Jean de Montigny and Lukas Breitwieser.
 // All Rights Reserved.
 //
 // -----------------------------------------------------------------------------

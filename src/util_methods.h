@@ -1,3 +1,10 @@
+// -----------------------------------------------------------------------------
+//
+// Copyright (C) Jean de Montigny.
+// All Rights Reserved.
+//
+// -----------------------------------------------------------------------------
+
 #ifndef UTILS_METHODS_
 #define UTILS_METHODS_
 
@@ -16,10 +23,15 @@ namespace bdm {
     auto* sparam = param->GetModuleParam<SimParam>();
     auto* random = sim->GetRandom();
 
+    double x, y;
+    double z = 150;
     for (int i = 0; i < num_human; i++) {
-      Double3 position = {random->Uniform(min, max), random->Uniform(min, max), 150};
+      do {
+        x = random->Uniform(min, max);
+        y = random->Uniform(min, max);
+      } while (IsInsideStructure({x, y, z}));
 
-      Human* human = new Human(position);
+      Human* human = new Human({x, y, z});
       human->SetDiameter(sparam->human_diameter);
       human->state_ = state;
       human->recovery_counter_ = sparam->recovery_duration;
@@ -29,7 +41,7 @@ namespace bdm {
       rm->push_back(human);
     }
   }  // end CellCreator
-
+// -----------------------------------------------------------------------------
 
 }
 

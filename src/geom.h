@@ -1,3 +1,10 @@
+// -----------------------------------------------------------------------------
+//
+// Copyright (C) Jean de Montigny.
+// All Rights Reserved.
+//
+// -----------------------------------------------------------------------------
+
 #ifndef GEOM_H_
 #define GEOM_H_
 
@@ -8,7 +15,7 @@ namespace bdm {
 
   inline TGeoManager* BuildTwoRoom() {
 
-      TGeoManager *geom = new TGeoManager("apartment", "two room apartment on the second floor");
+      TGeoManager* geom = new TGeoManager("apartment", "two room apartment on the second floor");
 
       // materials
       TGeoMaterial *Vacuum = new TGeoMaterial("vacuum", 0, 0, 0);
@@ -85,7 +92,7 @@ namespace bdm {
       return geom;
 
   } // end BuildTwoRoom
-
+// -----------------------------------------------------------------------------
 
   // return wall distance from A, in direction A->B
   // return infinity if no wall is between A and B
@@ -112,6 +119,20 @@ namespace bdm {
     return step;
   } // end DistToWall
 
+    inline bool IsInsideStructure(Double3 position) {
+      TGeoNode* node = gGeoManager->FindNode(position[0], position[1], position[2]);
+      std::string medium_name = node->GetMedium()->GetName();
+      // std::cout << "Point "
+      //           << position[0] << " " << position[1] << " " << position[2]
+      //           << " is inside " << node->GetName()
+      //           << " (" << node->GetMedium()->GetName() << ")" << std::endl;
+      if (medium_name != "Air") {
+        return true;
+      }
+      return false;
+    } // end IsInsideStruct
+// -----------------------------------------------------------------------------
+
   // inline bool IsObjInbetween(double positionA[3], double positionB[3]) {
   //   double dAB[3];
   //   for (int i=0; i<3; ++i) {
@@ -134,7 +155,7 @@ namespace bdm {
   //   }
   //   return false;
   // } // end IsObjInbetween
-
+// -----------------------------------------------------------------------------
 
 }  // namespace bdm
 
