@@ -26,8 +26,6 @@ namespace bdm {
 inline int Simulate(int argc, const char** argv) {
   Simulation simulation(argc, argv);
 
-  // Define initial model - in this example: single cell at origin
-  // auto* rm = simulation.GetResourceManager();
   auto* param = simulation.GetParam();
   auto* sparam = param->GetModuleParam<SimParam>();
   // initialize random number generators
@@ -36,22 +34,18 @@ inline int Simulate(int argc, const char** argv) {
   }
 
   // create human population
-  HumanCreator(param->min_bound_, param->max_bound_, sparam->initial_population, State::kHealthy);
-  HumanCreator(param->min_bound_, param->max_bound_, sparam->initial_population_infected, State::kInfected);
+  HumanCreator(param->min_bound_, param->max_bound_,
+    sparam->initial_population_healthy, State::kHealthy);
+  HumanCreator(param->min_bound_, param->max_bound_,
+    sparam->initial_population_infected, State::kInfected);
 
   // create ROOT geometry
   BuildTwoRoom();
   // auto geom = BuildTwoRoom();
 
-  // Double3 pointA = {-500, 100, 100};
-  // Double3 pointB = {800, 100, 100};
-  // // IsObjInbetween(pointA, pointB);
-  // std::cout << DistToWall(pointA, pointB) << std::endl;
-
-  // Run simulation for one timestep
+  // Run simulation for number_of_steps timestep
   for (uint64_t i = 0; i < sparam->number_of_steps; ++i) {
     simulation.GetScheduler()->Simulate(1);
-    // Count how many humans are infected.
   }
 
   std::cout << "Simulation completed successfully!" << std::endl;

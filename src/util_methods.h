@@ -1,5 +1,5 @@
-#ifndef UTILS_METHODS
-#define UTILS_METHODS
+#ifndef UTILS_METHODS_
+#define UTILS_METHODS_
 
 #include "human.h"
 #include "behavior.h"
@@ -33,4 +33,4 @@ namespace bdm {
 
 }
 
-#endif
+#endif // UTILS_METHODS_

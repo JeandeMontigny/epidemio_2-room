@@ -130,8 +130,6 @@ namespace bdm {
   //   auto node = gGeoManager->FindNextBoundary();
   //   double step = gGeoManager->GetStep();
   //   if (step < distAB) {
-  //     // distance from positionA
-  //     std::cout << "We hit " << node->GetName() << " at distance " << step << "\n";
   //     return true;
   //   }
   //   return false;
@@ -140,4 +138,4 @@ namespace bdm {
 
 }  // namespace bdm
 
-#endif
+#endif // GEOM_H_

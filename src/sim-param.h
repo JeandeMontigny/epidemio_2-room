@@ -23,12 +23,11 @@ struct SimParam : public ModuleParam {
   SimParam() {}
 
   uint64_t number_of_steps = 30;
-  uint64_t initial_population = 2;
+  uint64_t initial_population_healthy = 1;
   uint64_t initial_population_infected = 1;
   double infection_radius = 10;
-  // double moving_agents_ratio = 1.0;
   double recovery_duration = 30;
-  double human_diameter = 100; // cm
+  double human_diameter = 70; // cm
   double human_speed = 1;
   double infection_probablity = 0.1;
 

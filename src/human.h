@@ -27,4 +27,4 @@ class Human : public Cell {
 
 }  // namespace bdm
 
-#endif  // HUMAN_H_
+#endif // HUMAN_H_

@@ -24,7 +24,6 @@ void SimParam::AssignFromConfig(const std::shared_ptr<cpptoml::table>& config) {
   BDM_ASSIGN_PARAM_VALUE(initial_population);
   BDM_ASSIGN_PARAM_VALUE(initial_population_infected);
   BDM_ASSIGN_PARAM_VALUE(infection_radius);
-  // BDM_ASSIGN_PARAM_VALUE(moving_agents_ratio);
   BDM_ASSIGN_PARAM_VALUE(recovery_duration);
   BDM_ASSIGN_PARAM_VALUE(human_diameter);
   BDM_ASSIGN_PARAM_VALUE(human_speed);
