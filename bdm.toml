@@ -1,11 +1,11 @@
 number_of_steps = 3000
 
-initial_population_healthy = 5
-initial_population_infected = 1
-infection_radius = 200
+initial_population_healthy = 20
+initial_population_infected = 2
+infection_radius = 1e9
 human_diameter = 70
 human_speed = 10
-recovery_duration = 300
+recovery_duration = 500
 infection_probablity = 0.4
 
 # ----------------------------------------------------------------------------
