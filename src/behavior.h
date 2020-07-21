@@ -52,7 +52,7 @@ namespace bdm {
       auto* human = bdm_static_cast<Human*>(so);
 
       // recovery time if infected
-      if (human->state_ == kInfected) {
+      if (human->state_ == State::kInfected) {
         if (human->recovery_counter_ <= 0) {
           human->state_ = State::kRecovered;
         } else {
@@ -61,7 +61,7 @@ namespace bdm {
       } // end if kInfected
 
       // infection
-      if (human->state_ == kHealthy) {
+      if (human->state_ == State::kHealthy) {
         CheckSurrounding check(human, sparam->recovery_duration);
         ctxt->ForEachNeighborWithinRadius(check, *human,
            sparam->infection_radius);
