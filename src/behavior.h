@@ -88,8 +88,9 @@ struct MoveRandomly : public BaseBiologyModule {
     auto rand_movement = random->UniformArray<3>(-1, 1).Normalize();
     rand_movement[2] = 0;
 
-    if (DistToWall(position, position + rand_movement * sparam->human_speed) > human->GetDiameter()/2) {
-      human->SetPosition(position + rand_movement * sparam->human_speed);
+    if (DistToWall(position, position + rand_movement * sparam->human_speed)
+        > human->GetDiameter()/2) {
+      human->UpdatePosition(rand_movement * sparam->human_speed);
     }
   } // end Run
 }; // end MoveRandomly
