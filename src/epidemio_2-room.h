@@ -30,16 +30,16 @@ inline int Simulate(int argc, const char** argv) {
   auto* param = simulation.GetParam();
   auto* sparam = param->GetModuleParam<SimParam>();
   auto* rm = simulation.GetResourceManager();
-  simulation.GetRandom()->SetSeed(5649);
+  simulation.GetRandom()->SetSeed(5649); // rand() % 10000
 
   // create ROOT geometry
   BuildTwoRoom();
   // auto geom = BuildTwoRoom();
 
   // create human population
-  HumanCreator(param->min_bound_, param->max_bound_,
+  HumanCreator(-990, 990, -490, 490,
     sparam->initial_population_healthy, State::kHealthy);
-  HumanCreator(param->min_bound_, param->max_bound_,
+  HumanCreator(-990, 990, -490, 490,
     sparam->initial_population_infected, State::kInfected);
   std::cout << "population created" << std::endl;
 
