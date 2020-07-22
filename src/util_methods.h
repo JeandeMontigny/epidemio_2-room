@@ -8,40 +8,29 @@
 #ifndef UTILS_METHODS_
 #define UTILS_METHODS_
 
-#include "human.h"
-#include "behavior.h"
-#include "sim-param.h"
-
 namespace bdm {
 
-  // define human creator
-  static void HumanCreator(double min, double max,
-                           int num_human, State state) {
+  inline double GetDistance(Double3 dAB) {
+    return std::sqrt(dAB[0]*dAB[0] + dAB[1]*dAB[1] + dAB[2]*dAB[2]);
+  } // end GetDistance
 
-    auto* sim = Simulation::GetActive();
-    auto* rm = sim->GetResourceManager();
-    auto* param = sim->GetParam();
-    auto* sparam = param->GetModuleParam<SimParam>();
-    auto* random = sim->GetRandom();
-
-    double x, y;
-    double z = 150;
-    for (int i = 0; i < num_human; i++) {
-      do {
-        x = random->Uniform(min, max);
-        y = random->Uniform(min, max);
-      } while (IsInsideStructure({x, y, z}));
-
-      Human* human = new Human({x, y, z});
-      human->SetDiameter(sparam->human_diameter);
-      human->state_ = state;
-      human->recovery_counter_ = sparam->recovery_duration;
-
-      human->AddBiologyModule(new InfectiousBehaviour());
-      human->AddBiologyModule(new MoveRandomly());
-      rm->push_back(human);
+// ---------------------------------------------------------------------------
+  inline Double3 GetDifAB(Double3 positionA, Double3 positionB) {
+    Double3 dAB;
+    for (int i=0; i<3; ++i) {
+      dAB[i] = positionB[i] - positionA[i];
     }
-  }  // end CellCreator
+    return dAB;
+  } // end GetDifAB
+
+// ---------------------------------------------------------------------------
+  inline Double3 GetNormalisedDirection(double distAB, Double3 dAB) {
+  // normalize the direction
+    for (int i=0; i<3; ++i) {
+      dAB[i] /= distAB;
+    }
+    return dAB;
+  } // end GetNormalisedDirection
 
 }
 
