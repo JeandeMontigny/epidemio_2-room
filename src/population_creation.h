@@ -16,7 +16,8 @@
 namespace bdm {
 
   // define human creator
-  static void HumanCreator(double min, double max,
+  static void HumanCreator(double min_x, double max_x,
+                           double min_y, double max_y,
                            int num_human, State state) {
 
     auto* sim = Simulation::GetActive();
@@ -29,8 +30,8 @@ namespace bdm {
     double z = 150;
     for (int i = 0; i < num_human; i++) {
       do {
-        x = random->Uniform(min, max);
-        y = random->Uniform(min, max);
+        x = random->Uniform(min_x, max_x);
+        y = random->Uniform(min_y, max_y);
       } while (IsInsideStructure({x, y, z}));
 
       Human* human = new Human({x, y, z});
