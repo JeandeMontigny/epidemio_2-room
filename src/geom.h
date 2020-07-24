@@ -89,6 +89,9 @@ namespace bdm {
 
     std::cout << "geom construction done" << std::endl;
 
+    // set max threads
+    gGeoManager->SetMaxThreads(ThreadInfo::GetInstance()->GetMaxThreads());
+
     // return sim_space;
     return geom;
 
@@ -96,6 +99,9 @@ namespace bdm {
 
 // ---------------------------------------------------------------------------
   inline TGeoNode* GetNextNode(Double3 positionA, Double3 positionB) {
+    TGeoNavigator *nav = gGeoManager->GetCurrentNavigator();
+    if (!nav) nav = gGeoManager->AddNavigator();
+
     Double3 diffAB = GetDifAB(positionA, positionB);
     double distAB = GetDistance(diffAB);
     Double3 dABNorm = GetNormalisedDirection(distAB, diffAB);
@@ -107,10 +113,10 @@ namespace bdm {
     }
     // initialize starting point in the position of A
     // and starting direction shooting towards B
-    gGeoManager->InitTrack(a, dAB);
+    nav->InitTrack(a, dAB);
     // Shoot the ray towards B and check if it hits something in between
     // ie find next node
-    auto node = gGeoManager->FindNextBoundary();
+    auto node = nav->FindNextBoundary();
     // std::cout << "We hit " << node->GetName() << std::endl;
     return node;
   }
@@ -118,6 +124,9 @@ namespace bdm {
 // ---------------------------------------------------------------------------
   // return node distance from A, in direction A->B
   inline double DistToNode(Double3 positionA, Double3 dABNorm) {
+    TGeoNavigator *nav = gGeoManager->GetCurrentNavigator();
+    if (!nav) nav = gGeoManager->AddNavigator();
+
     // Double3 to double [3] conversion
     double a[3]; double dAB[3];
     for (int i=0; i<3; ++i) {
@@ -126,12 +135,12 @@ namespace bdm {
     }
     // initialize starting point in the position of A
     // and starting direction shooting towards B
-    gGeoManager->InitTrack(a, dAB);
+    nav->InitTrack(a, dAB);
     // Shoot the ray towards B and check if it hits something in between
     // ie find next node
-    gGeoManager->FindNextBoundary();
+    nav->FindNextBoundary();
     // distance from positionA
-    double step = gGeoManager->GetStep();
+    double step = nav->GetStep();
 
     return step;
   } // end DistToNode
@@ -163,7 +172,10 @@ namespace bdm {
 
 // ---------------------------------------------------------------------------
   inline bool IsInsideStructure(Double3 position) {
-    TGeoNode* node = gGeoManager->FindNode(position[0], position[1], position[2]);
+    TGeoNavigator *nav = gGeoManager->GetCurrentNavigator();
+    if (!nav) nav = gGeoManager->AddNavigator();
+
+    TGeoNode* node = nav->FindNode(position[0], position[1], position[2]);
     std::string medium_name = node->GetMedium()->GetName();
     // std::cout << "Point "
     //           << position[0] << " " << position[1] << " " << position[2]
