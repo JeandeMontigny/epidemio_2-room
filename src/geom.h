@@ -32,7 +32,6 @@ namespace bdm {
     gGeoManager->SetTopVolume(sim_space);
     gGeoManager->SetTopVisible(0);
 
-
     TGeoVolume *mBlocks;
 
     // apartment - 10m * 5m * 2.5m
@@ -53,9 +52,6 @@ namespace bdm {
     sim_space->AddNodeOverlap(mBlocks, 1, new TGeoTranslation(1000, 0, 0));
 
     // inside wall
-    // mBlocks = geom->MakeBox("inside_wall", Concrete, 5, 500, 250);
-    // mBlocks->SetLineColor(kBlack);
-    // sim_space->AddNodeOverlap(mBlocks, 1, new TGeoTranslation(0, 0, 0));
     mBlocks = geom->MakeBox("wall_inside_sides", Concrete, 5, 200, 250);
     mBlocks->SetLineColor(kBlack);
     sim_space->AddNodeOverlap(mBlocks, 1, new TGeoTranslation(0, 300, 0));
@@ -82,17 +78,17 @@ namespace bdm {
     mBlocks->SetLineColor(kGray);
     sim_space->AddNodeOverlap(mBlocks, 1, new TGeoTranslation(0, 0, -49));
 
-
-    // display geometry
+    // close geometry
     geom->CloseGeometry();
-    // sim_space->Draw();
 
     std::cout << "geom construction done" << std::endl;
 
     // set max threads
     gGeoManager->SetMaxThreads(ThreadInfo::GetInstance()->GetMaxThreads());
 
-    // return sim_space;
+    // export geom to gdml file
+    geom->Export("apartment.gdml");
+
     return geom;
 
   } // end BuildTwoRoom
@@ -119,7 +115,7 @@ namespace bdm {
     auto node = nav->FindNextBoundary();
     // std::cout << "We hit " << node->GetName() << std::endl;
     return node;
-  }
+  } // end GetNextNode
 
 // ---------------------------------------------------------------------------
   // return node distance from A, in direction A->B
