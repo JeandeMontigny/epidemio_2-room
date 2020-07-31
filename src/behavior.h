@@ -90,7 +90,9 @@ struct MoveRandomly : public BaseBiologyModule {
 
     if (DistToWall(position, position + rand_movement * sparam->human_speed)
         > human->GetDiameter()/2) {
-      human->UpdatePosition(rand_movement * sparam->human_speed);
+          // if tangent to wall > human->GetDiameter()/2
+          // remove movement component toward wall
+      human->SetPosition(position + rand_movement * sparam->human_speed);
     }
   } // end Run
 }; // end MoveRandomly
