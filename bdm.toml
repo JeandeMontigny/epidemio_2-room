@@ -1,7 +1,7 @@
-number_of_steps = 3000
+number_of_steps = 1000
 
-initial_population_healthy = 20
-initial_population_infected = 2
+initial_population_healthy = 150
+initial_population_infected = 1
 infection_radius = 1e9
 human_diameter = 70
 human_speed = 10
